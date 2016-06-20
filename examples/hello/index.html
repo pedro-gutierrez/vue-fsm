@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html id="app">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Hello world example</title>
+    <meta name="description" content="A simple hello world app using vue-fsm">
+  </head>
+  <body>
+    
+    <h1 v-if="!is_init">
+      Hello {{ name }}
+    </h1>
+
+    <h1 v-if="is_init">
+      Please enter your name 
+    </h1>
+
+    <input type="text" v-model="newName"></input>
+    <button v-on:click="$r( 'submit' )">Hello!</button>
+
+    
+    <script src="../../lib/jquery.min.js"></script>
+    <script src="../../lib/vue.min.js"></script>
+    <script src="../../lib/setImmediate.js"></script>
+    <script src="../../dist/vue.fsm.js"></script>
+    <script src="./app.js"></script>
+
+  </body>
+</html>
