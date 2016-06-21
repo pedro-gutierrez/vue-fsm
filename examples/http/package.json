@@ -1,0 +1,14 @@
+{
+  "name": "vue-fsm-http",
+    "description": "simple demo of vue-fsm doing http",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+      "express": "*",
+      "body-parser": "*"
+    },
+    "scripts": {
+      "start": "npm install && node server.js"
+    }
+
+}

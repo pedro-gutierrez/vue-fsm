@@ -563,7 +563,7 @@
         }
       }
 
-      var $_resolveArgs = function( spec, source ) {
+      Vue.$resolveSpec = function( spec, source ) {
 
         if( "string" === typeof( spec ) ) {
           //return source[spec];
@@ -597,6 +597,7 @@
 
         return ev;
       }
+
 
 
       //
@@ -638,6 +639,12 @@
             } else {
               return this.$_resolveFn( this[f] );
             }
+          
+          case "object": 
+
+              var p = $_resolvePlugin(f);
+              if( p ) return p.dsl.fun(this, f);
+
           default: 
             fsm.$error( "can't resolve spec of type " + typeof(f) + " to a function", f );
             break;
@@ -1120,10 +1127,38 @@
       Vues.$map( function(k, v) {
         $inspect( k );
       });
-    },
+    }
         
     Vue.$subscriptions = function() {
         console.log( EventObs );
     }
+
+
+  var plugins = [];
+
+  Vue.$plugin = function(opts) {
+    plugins.push(opts);
+    if( opts.methods ) {
+      opts.methods.$map( function(m, fun) {
+        if( !Vue.prototype[m] ) Vue.prototype[m]=fun;
+      });
+    }
+  };
+
+  var $_resolvePlugin = function( spec ){ 
+    if( !spec ) return null;
+    var found = plugins.filter( function(p) {
+      if( p.dsl ) {
+        for( var k in spec ) {
+          if( spec.hasOwnProperty( k ) ) 
+            for( var k2 = 0; k2<p.dsl.specs.length; k2++ )
+              if( p.dsl.specs[k2] === k ) return true
+        }
+      }
+      return false;
+    });
+    if( found.length ) return found[0];
+  }
+
     
 })();

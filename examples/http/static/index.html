@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html id="app">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Hello world example</title>
+    <meta name="description" content="A simple hello world app using vue-fsm">
+  </head>
+  <body>
+    
+    <h1>
+      Please enter your name 
+    </h1>
+
+
+    <input type="text" v-model="name"></input>
+    <button v-on:click="$r( 'submit' )">Hello!</button>
+    
+    <span v-if="is_fetching || is_creating">
+    Loading...
+    </span>
+    <span v-if="is_conflict">
+    Duplicate name 
+    </span>
+
+    <span v-if="is_invalid">
+    Invalid name
+    </span>
+
+    <ul>
+      <li v-for="n in names">{{ n }}</li>
+    </ul>
+
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/vue.min.js"></script>
+    <script src="lib/setImmediate.js"></script>
+    <script src="dist/vue.fsm.js"></script>
+    <script src="plugins/vue.fsm.http.js"></script>
+    <script src="app.js"></script>
+
+  </body>
+</html>
