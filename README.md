@@ -4,6 +4,30 @@ Finite State Machines for Vue.js
 ## About
 This library is rather a proof of concept, and not intended to be used in production. It is highly opinionated and isn't meant to follow idiomatic javascript conventions. However it is open for feedback, suggestions for improvement and contributions.
 
+## Main idea
+
+The main goal of this library is to be able to express component behaviour in the following way:
+
+``` javascript
+Vue.$vue( "app", {
+  data: { ... },
+  states: {
+    STATE1: {
+      some_event: { then: "STATE2", and: [ "action1", "action2", ... ]},
+    },
+       
+    STATE2: {
+      some_other_event: { then: "STATE1", and: ...]},
+    }
+  },
+
+  methods: {
+    action1: function(msg) { ... },
+    action2: function(msg) { ... }
+  }
+  ...
+});
+```
 
 
 ## Installation & Usage
