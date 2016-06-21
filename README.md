@@ -17,13 +17,13 @@ Base functionnality can be extended via plugins. Plugins provide with:
 * New methods, inyected into the FSM prototype and available to all instances
 * DSLs to express actions inline in the FSM declaration rather than as methods
 
-Have a look at the provided sample plugins.
+Have a look at the provided `http` example.
 
 ## TODO
 
 * Distribute it as a module (NPM, CommonJS, ES6, AMD, etc...)
 * Remove dependency from jQuery
-* --Make it extensible with plugins--
+* <del>Make it extensible with plugins</del>
 * Improve the implementation
 * Add functional tests
 * Performance testing
