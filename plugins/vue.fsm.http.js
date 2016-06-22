@@ -1,16 +1,19 @@
 (function() {
 
   Vue.$plugin({
-    dsl: {
-      specs: [ "post", "get" ],
-      fun: function( fsm, spec ) {
+    specs: {
+      post: function( fsm, spec ) {
         return function() {
-          var opts = {};
+          var opts = { path: spec.post, method: "POST" };
           if( spec.body ) opts.data=Vue.$resolveSpec( spec.body, fsm.$data );
-          opts.path = spec.get || spec.post;
-          opts.method = spec.post ? "POST" : "GET";
-          opts.binary = spec.binary;
-          opts.raw = spec.raw;
+          fsm.$http( opts );
+        }
+      },
+
+      get: function( fsm, spec ){
+        return function() {
+          var opts = { path: spec.get, method: "GET" };
+          if( spec.body ) opts.data=Vue.$resolveSpec( spec.body, fsm.$data );
           fsm.$http( opts );
         }
       }

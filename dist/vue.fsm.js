@@ -642,8 +642,8 @@
           
           case "object": 
 
-              var p = $_resolvePlugin(f);
-              if( p ) return p.dsl.fun(this, f);
+              var fun = $_resolvePluginSpec(f);
+              if( fun ) return fun(this, f);
 
           default: 
             fsm.$error( "can't resolve spec of type " + typeof(f) + " to a function", f );
@@ -1145,19 +1145,20 @@
     }
   };
 
-  var $_resolvePlugin = function( spec ){ 
+  var $_resolvePluginSpec = function( spec ){ 
     if( !spec ) return null;
-    var found = plugins.filter( function(p) {
-      if( p.dsl ) {
-        for( var k in spec ) {
-          if( spec.hasOwnProperty( k ) ) 
-            for( var k2 = 0; k2<p.dsl.specs.length; k2++ )
-              if( p.dsl.specs[k2] === k ) return true
+    var found = plugins.map( function(p) {
+      if( p.specs ) {
+        for( var s in p.specs ) {
+          if( p.specs.hasOwnProperty( s ) ) 
+            for( var k in spec )
+              if( spec.hasOwnProperty( k ) )
+                if( k === s ) return p.specs[s];
         }
       }
-      return false;
-    });
-    if( found.length ) return found[0];
+      return null;
+    }).filter( function(fun) { return fun != null; });
+    if( found.length == 1 ) return found[0];
   }
 
     

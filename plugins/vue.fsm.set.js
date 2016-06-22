@@ -1,9 +1,8 @@
 (function() {
   
   Vue.$plugin({
-    dsl: {
-      specs: [ "set" ],
-      fun: function( fsm, spec ) {
+    specs: {
+      set: function( fsm, spec ) {
         return function(msg){
           if( "string" === typeof( spec.set) ) {
             fsm.$data[spec.set]=msg;
