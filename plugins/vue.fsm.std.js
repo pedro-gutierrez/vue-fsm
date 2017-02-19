@@ -1,5 +1,5 @@
 (function() {
-  
+
   Vue.$plugin({
     specs: {
       set: function( fsm, spec ) {
@@ -19,7 +19,7 @@
           }
         }
       },
-      
+
       push: function( fsm, spec ) {
         return function(msg){
           if( "string" === typeof( spec.push) ) {
@@ -35,15 +35,15 @@
       unset: function(fsm, spec) {
         return function(msg){
           if( "string" === typeof( spec.unset) ) {
-            fsm.$data[spec.unset]=null;
+            Vue.$clearValue( fsm.$data, spec.unset );
           } else {
             Vue.$resolveSpec( spec.unset, msg || fsm.$data ).$map( function(k, v) {
-              fsm.$data[k]=null;
+              Vue.$clearValue( fsm.$data, k );
             });
           }
         }
       },
-      
+
       empty: function(fsm, spec) {
         return function(msg){
           if( "string" === typeof( spec.empty) ) {
@@ -90,8 +90,6 @@
         return function(msg) {
           var source = fsm.$data;
           var arg = Vue.$resolveSpec( spec.reply, source );
-          console.log( "reply - spec", spec );
-          console.log( "reply - msg", msg );
           Vue.$send( msg.$from, msg.$msg, arg );
         }
       },
@@ -101,6 +99,24 @@
           setTimeout( function() {
             fsm.$receive( "timeout" )
           }, 1000*spec.timeout);
+        }
+      },
+
+      eq: function(fsm, spec) {
+        return function(msg){
+          var source = (spec.using === "msg") ? msg : fsm.$data;
+          var v1 = Vue.$resolveSpec( spec.eq , source );
+          var v2 = spec.value || Vue.$resolveSpec( fsm.$data , source );
+          return ""+v1 === ""+v2;
+        }
+      },
+
+      neq: function(fsm, spec){
+        return function(msg){
+          var source = (spec.using === "msg") ? msg : fsm.$data;
+          var v1 = Vue.$resolveSpec( spec.eq , source );
+          var v2 = spec.value || Vue.$resolveSpec( fsm.$data , source );
+          return ""+v1 != ""+v2;
         }
       }
     },
